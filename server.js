@@ -23,7 +23,7 @@ app.use('/auth', expressJwt({
   secret: process.env.JWT_SECRET,
   getToken: fromRequest
 }).unless({
-  path: [{ url: '/auth/login', methods: ['POST'] }]
+  path: [{ url: '/auth/login', methods: ['POST'], url: '/auth/data', methods: ['GET'] }]
 }), require('./controllers/auth'));
 
 

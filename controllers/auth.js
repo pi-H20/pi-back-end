@@ -32,6 +32,7 @@ router.post('/login', (req, res) => {
     }
   };
 
+  // using a .get call rather than .query since there's only one user
   docClient.get(params, function(err, data) {
     if (err) {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
@@ -49,7 +50,7 @@ router.post('/login', (req, res) => {
 
 // TODO: Might have to write sql query directly for dynamoDB. Should be a post route
 router.get('/data', (req, res)=> {
-
+  res.send('This is the stub route for the data dashboard')
 
 })
 
