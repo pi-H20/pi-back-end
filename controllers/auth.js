@@ -19,7 +19,6 @@ AWS.config.update({
 // instantiate the aws dynamodb client
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-
 // POST /auth/login route - returns a JWT
 router.post('/login', (req, res) => {
   console.log('In the POST /auth/login route');
