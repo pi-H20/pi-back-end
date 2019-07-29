@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
   var params = {
     TableName: "plantUser",
     Key: {
-      "plantUserId": "123123"
+      "id": "123123"
     }
   };
 
@@ -50,8 +50,28 @@ router.post('/login', (req, res) => {
 
 // TODO: Might have to write sql query directly for dynamoDB. Should be a post route
 router.get('/data', (req, res)=> {
-  res.send('This is the stub route for the data dashboard')
 
-})
+  var params = {
+      TableName : "plantUser",
+      IndexName : "lastname-index",
+      KeyConditionExpression: "lastname = :lastname",
+      ExpressionAttributeValues: {
+          ":lastname": "chidrome"
+      }
+  };
+
+  docClient.query(params, function(err, data) {
+      if (err) {
+          console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+      } else {
+          console.log("Query succeeded.");
+          console.log(data);
+          data.Items.forEach(function(item) {
+              console.log("my first name is", item.firstname + " and my last name is " + item.lastname);
+          });
+      }
+  });
+  
+});
 
 module.exports = router;
