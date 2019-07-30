@@ -48,12 +48,12 @@ router.post('/login', (req, res) => {
 
 });
 
-// TODO: Might have to write sql query directly for dynamoDB. Should be a post route
+// as of now, the data being returned will be the user since we don't have watering history data yet.
 router.get('/data', (req, res)=> {
 
   var params = {
       TableName : "plantUser",
-      IndexName : "lastname-index",
+      IndexName : "lastname-index", 
       KeyConditionExpression: "lastname = :lastname",
       ExpressionAttributeValues: {
           ":lastname": "chidrome"
@@ -61,6 +61,7 @@ router.get('/data', (req, res)=> {
   };
 
   docClient.query(params, function(err, data) {
+    
       if (err) {
           console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
       } else {
@@ -69,6 +70,7 @@ router.get('/data', (req, res)=> {
           data.Items.forEach(function(item) {
               console.log("my first name is", item.firstname + " and my last name is " + item.lastname);
           });
+          res.send(data.Items);
       }
   });
   

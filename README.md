@@ -23,3 +23,4 @@ Locally:
 
 [/auth/login](http://watermyplant-backend-env.x589jebncj.us-east-1.elasticbeanstalk.com/auth/login) - Login page where user can login.
 
+[/auth/data](http://watermyplant-backend-env.x589jebncj.us-east-1.elasticbeanstalk.com/auth/data) - Returns the watering history data
