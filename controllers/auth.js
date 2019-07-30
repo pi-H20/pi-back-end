@@ -10,8 +10,8 @@ require('dotenv').config();
 
 // configure aws
 AWS.config.update({
-  "region": 'us-east-1',
-  "endpoint": "http://dynamodb.us-east-1.amazonaws.com",
+  "region": 'us-west-2',
+  "endpoint": "http://dynamodb.us-west-2.amazonaws.com",
   "accessKeyId": process.env.ACCESSKEYID,
   "secretAccessKey": process.env.SECRETKEYID
 });
@@ -51,13 +51,27 @@ router.post('/login', (req, res) => {
 // as of now, the data being returned will be the user since we don't have watering history data yet.
 router.get('/data', (req, res)=> {
 
+  // var params = {
+  //     TableName : "WateringPlantTable",
+  //     IndexName : "timestamp-index", 
+  //     KeyConditionExpression: "#timestamp = :timestamp",
+  //     ExpressionAttributeNames:{
+  //         "#timestamp": "timestamp"
+  //     },
+  //     ExpressionAttributeValues: {
+  //         ":timestamp": "1564428885"
+  //     }
+  // };
+
   var params = {
-      TableName : "plantUser",
-      IndexName : "lastname-index", 
-      KeyConditionExpression: "lastname = :lastname",
-      ExpressionAttributeValues: {
-          ":lastname": "chidrome"
-      }
+    TableName: "WateringPlantTable",
+    KeyConditionExpression: "#status = :status",
+    ExpressionAttributeNames: {
+      "#status": "status"
+    },
+    ExpressionAttributeValues: {
+        ":status": "low"
+    }
   };
 
   docClient.query(params, function(err, data) {
@@ -67,9 +81,6 @@ router.get('/data', (req, res)=> {
       } else {
           console.log("Query succeeded.");
           console.log(data);
-          data.Items.forEach(function(item) {
-              console.log("my first name is", item.firstname + " and my last name is " + item.lastname);
-          });
           res.send(data.Items);
       }
   });
