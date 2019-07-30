@@ -10,8 +10,8 @@ require('dotenv').config();
 
 // configure aws
 AWS.config.update({
-  "region": 'us-east-1',
-  "endpoint": "http://dynamodb.us-east-1.amazonaws.com",
+  "region": 'us-west-2',
+  "endpoint": "http://dynamodb.us-west-2.amazonaws.com",
   "accessKeyId": process.env.ACCESSKEYID,
   "secretAccessKey": process.env.SECRETKEYID
 });
@@ -28,7 +28,7 @@ router.post('/login', (req, res) => {
   var params = {
     TableName: "plantUser",
     Key: {
-      "plantUserId": "123123"
+      "id": "123123"
     }
   };
 
@@ -48,10 +48,43 @@ router.post('/login', (req, res) => {
 
 });
 
-// TODO: Might have to write sql query directly for dynamoDB. Should be a post route
+// as of now, the data being returned will be the user since we don't have watering history data yet.
 router.get('/data', (req, res)=> {
-  res.send('This is the stub route for the data dashboard')
 
-})
+  // var params = {
+  //     TableName : "WateringPlantTable",
+  //     IndexName : "timestamp-index", 
+  //     KeyConditionExpression: "#timestamp = :timestamp",
+  //     ExpressionAttributeNames:{
+  //         "#timestamp": "timestamp"
+  //     },
+  //     ExpressionAttributeValues: {
+  //         ":timestamp": "1564428885"
+  //     }
+  // };
+
+  var params = {
+    TableName: "WateringPlantTable",
+    KeyConditionExpression: "#status = :status",
+    ExpressionAttributeNames: {
+      "#status": "status"
+    },
+    ExpressionAttributeValues: {
+        ":status": "low"
+    }
+  };
+
+  docClient.query(params, function(err, data) {
+    
+      if (err) {
+          console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+      } else {
+          console.log("Query succeeded.");
+          console.log(data);
+          res.send(data.Items);
+      }
+  });
+  
+});
 
 module.exports = router;
