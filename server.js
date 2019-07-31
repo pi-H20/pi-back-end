@@ -7,13 +7,14 @@ const request = require('request');
 const cors = require('cors');
 
 
+
 // env variables
 require('dotenv').config();
 
 // app/middleware setup
 const app = express();
 app.use(express.urlencoded({extended: false}));
-
+app.use(cors());
 //Home route
 app.get('/', (req, res)=> {
   res.send('Home page stub route.')
