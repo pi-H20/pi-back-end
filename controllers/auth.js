@@ -31,7 +31,7 @@ router.post('/login', (req, res) => {
     TableName: "PlantUsers",
     Key:{
       "email": req.query.email
-  }
+    }
   };
 
   // using a .get call rather than .query since there's only one user

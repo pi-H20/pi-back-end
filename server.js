@@ -14,60 +14,62 @@ require('dotenv').config();
 const app = express();
 app.use(express.urlencoded({extended: false}));
 
-
-
-
+//Home route
 app.get('/', (req, res)=> {
   res.send('Home page stub route.')
 })
+
+//About  us route
 app.get('/aboutus', (req, res) => {
   res.send('Stub route for about us page')
 })
-app.get('/autoWaterOn', (req, res) => {
+
+//Route to turn on autowater
+app.get('/auto_water_on', (req, res) => {
   const waterOnURL = "https://re1q4laqtg.execute-api.us-west-2.amazonaws.com/auto_water_on"
 
   request(waterOnURL, (error, res, body)=> {
     if(error) {
-      
-    } else {
-    }
+      console.log(error)
+    } 
   })
   res.status(200).send("Successfully turned auto water ON")
 });
 
-app.get('/autoWaterOff', (req, res) => {
+
+//Route to turn off autowater
+app.get('/auto_water_off', (req, res) => {
   const waterOffURL = "https://6gnaoz78ye.execute-api.us-west-2.amazonaws.com/auto_water_off"
   
   request(waterOffURL, (error, req,res) => {
     if(error) {
       console.log(error)
-    } else {
-
-    }
+    } 
   })
   res.status(200).send("Successfully turned auto water OFF")
 })
 
+
+//Route to turn on pump once
 app.get('/water_once', (req, res) => {
   const waterOnceURL = "https://n2std8pxaa.execute-api.us-west-2.amazonaws.com/water_once"
 
   request(waterOnceURL, (error, req, res) => {
     if(error) {
       console.log(error)
-    } else {
-    }
+    } 
   })
-  res.status(200).send("SUCCESSFULLY Watered once!")
+  res.status(200).send("Successfully Watered once!")
 })
 
 
-
-
-
-
-app.use('/auth', cors(), require('./controllers/auth'));
-
-
+//Route to login
+app.use('/auth', expressJwt({
+  secret: process.env.JWT_SECRET,
+  getToken: fromRequest
+}).unless({
+  path: [{ url: '/auth/login', methods: ['POST'], url: '/auth/data', methods: ['GET'] }]
+}), require('./controllers/auth'));
 
 // Helper function: This allows our server to parse the incoming token from the client
 // This is being run as middleware, so it has access to the incoming request
