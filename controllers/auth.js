@@ -26,9 +26,9 @@ router.post('/login', (req, res) => {
 
   // manually querying for a specific known user.
   var params = {
-    TableName: "plantUser",
+    TableName: "PlantUser",
     Key: {
-      "id": "123123"
+      "id": req.body.email
     }
   };
 
@@ -50,18 +50,6 @@ router.post('/login', (req, res) => {
 
 // as of now, the data being returned will be the user since we don't have watering history data yet.
 router.get('/data', (req, res)=> {
-
-  // var params = {
-  //     TableName : "WateringPlantTable",
-  //     IndexName : "timestamp-index", 
-  //     KeyConditionExpression: "#timestamp = :timestamp",
-  //     ExpressionAttributeNames:{
-  //         "#timestamp": "timestamp"
-  //     },
-  //     ExpressionAttributeValues: {
-  //         ":timestamp": "1564428885"
-  //     }
-  // };
 
   var params = {
     TableName: "WateringPlantTable",
