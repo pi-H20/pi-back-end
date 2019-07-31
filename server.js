@@ -4,6 +4,7 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const expressJwt = require('express-jwt');
 const request = require('request');
+const cors = require('cors');
 
 
 // env variables
@@ -64,12 +65,7 @@ app.get('/water_once', (req, res) => {
 
 
 
-app.use('/auth', expressJwt({
-  secret: process.env.JWT_SECRET,
-  getToken: fromRequest
-}).unless({
-  path: [{ url: '/auth/login', methods: ['POST'], url: '/auth/data', methods: ['GET'] }]
-}), require('./controllers/auth'));
+app.use('/auth', cors(), require('./controllers/auth'));
 
 
 
