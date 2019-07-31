@@ -4,6 +4,7 @@ const express = require('express');
 const AWS = require('aws-sdk');
 const expressJwt = require('express-jwt');
 const request = require('request');
+const cors = require('cors');
 
 
 // env variables
@@ -69,8 +70,6 @@ app.use('/auth', expressJwt({
 }).unless({
   path: [{ url: '/auth/login', methods: ['POST'], url: '/auth/data', methods: ['GET'] }]
 }), require('./controllers/auth'));
-
-
 
 // Helper function: This allows our server to parse the incoming token from the client
 // This is being run as middleware, so it has access to the incoming request
