@@ -65,12 +65,7 @@ app.get('/water_once', (req, res) => {
 
 
 //Route to login
-app.use('/auth', expressJwt({
-  secret: process.env.JWT_SECRET,
-  getToken: fromRequest
-}).unless({
-  path: [{ url: '/auth/login', methods: ['POST'], url: '/auth/data', methods: ['GET'] }]
-}), require('./controllers/auth'));
+app.use('/auth', require('./controllers/auth'));
 
 // Helper function: This allows our server to parse the incoming token from the client
 // This is being run as middleware, so it has access to the incoming request
