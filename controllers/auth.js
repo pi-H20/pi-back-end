@@ -35,7 +35,7 @@ router.post('/login', (req, res) => {
     if (err) {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
     } else {
-        console.log("Query succeeded.");
+        console.log("Query for USER LOGIN succeeded.");
         // user found, check password
         bcrypt.compare(req.body.password, data.Item.password, (error, passwordsMatch) => {
           if(passwordsMatch){
@@ -51,32 +51,6 @@ router.post('/login', (req, res) => {
           }
       });
     }
-  });
-
-});
-
-// as of now, the data being returned will be the user since we don't have watering history data yet.
-router.get('/data', (req, res)=> {
-
-  var params = {
-    TableName: "WateringPlantTable",
-    KeyConditionExpression: "#status = :status",
-    ExpressionAttributeNames: {
-      "#status": "status"
-    },
-    ExpressionAttributeValues: {
-        ":status": "low"
-    }
-  };
-
-  docClient.query(params, function(err, data) {
-    
-      if (err) {
-          console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
-      } else {
-          console.log("Query succeeded.");
-          res.send(data.Items);
-      }
   });
 
 });
@@ -113,7 +87,7 @@ router.post('/signup', (req, res) => {
 // This is what is returned when client queries for new user data
 router.post('/current/user', (req, res) => {
 
-  console.log(req.body);
+  console.log(req.body.body + " IN THE CURRENT USER ROUTE!");
   var params = {
     TableName: "PlantUsers",
     Key:{
@@ -126,7 +100,7 @@ router.post('/current/user', (req, res) => {
     if (err) {
         console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
     } else {
-        console.log("Query succeeded.");
+        console.log("Query FOR CURRENT USER succeeded.");
         res.send(data.Item);
       };
     
