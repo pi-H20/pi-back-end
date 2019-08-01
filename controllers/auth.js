@@ -23,7 +23,6 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 // POST /auth/login route - returns a JWT
 router.post('/login', (req, res) => {
-
   var params = {
     TableName: "PlantUsers",
     Key:{
@@ -114,6 +113,7 @@ router.post('/signup', (req, res) => {
 // This is what is returned when client queries for new user data
 router.post('/current/user', (req, res) => {
 
+  console.log(req.body);
   var params = {
     TableName: "PlantUsers",
     Key:{
