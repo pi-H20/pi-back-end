@@ -7,6 +7,7 @@ const request = require('request');
 const cors = require('cors');
 
 
+
 // env variables
 require('dotenv').config();
 
@@ -80,7 +81,6 @@ app.get('/water_once', (req, res) => {
 
 //Route to login
 app.use('/auth', require('./controllers/auth'));
-
 
 
 app.listen(process.env.PORT || 3000, ()=>{

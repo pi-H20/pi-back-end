@@ -84,14 +84,14 @@ router.get('/data', (req, res)=> {
 
 // POST /auth/signup route - create a user in the DB and then log them in
 router.post('/signup', (req, res) => {
-  console.log(req.query)
+  console.log(req.body)
 
-    bcrypt.hash(req.query.password, 10, (error, hash) => {
+    bcrypt.hash(req.body.password, 10, (error, hash) => {
       var params = {
         TableName: "PlantUsers",
         Item:{
-            "email": req.query.email,
-            "name": req.query.name,
+            "email": req.body.email,
+            "name": req.body.name,
             "password": hash
           }
         }
@@ -100,6 +100,7 @@ router.post('/signup', (req, res) => {
           console.log("unable to put item. Error:", JSON.stringify(err, null, 2))
         } else {
           console.log("Created new User");
+          console.log(params.Item);
           const token = jwt.sign(params.Item, process.env.JWT_SECRET, {
             expiresIn: 60 * 60 * 24 // 24 hours (in seconds)
           });
