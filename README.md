@@ -6,7 +6,7 @@ WaterMyPlant is a Raspberry Pi enabled app that allows users to water their plan
 **Running the App**
 
 Deployed:
-* [Front End](http://blahblahblah.com)
+* [Front End](http://watermyplantfe-env.ipzxc7xqsb.us-east-1.elasticbeanstalk.com/)
 * [Back End](http://watermyplant-backend-env.x589jebncj.us-east-1.elasticbeanstalk.com/)
 
 Locally:
